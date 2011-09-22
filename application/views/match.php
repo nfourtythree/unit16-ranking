@@ -17,8 +17,29 @@
 <?=form_close();?>
 
 
-<ol>
+<table border="0" cellspacing="5" cellpadding="5">
+	<tr>
+		<th>&nbsp;</th>
+		<th>P</th>
+		<th>W</th>
+		<th>D</th>
+		<th>L</th>
+		<th>F</th>
+		<th>A</th>
+		<th>GD</th>
+		<th>R</th>
+	</tr>
 	<?foreach($ranking AS $p):?>
-	<li><?=$p->name?> [<?=$p->rank?>]</li>
+	<tr>
+		<td><?=$p->name?></td>
+		<td><?=($p->wins+$p->draws+$p->loses)?></td>
+		<td><?=$p->wins?></td>
+		<td><?=$p->draws?></td>
+		<td><?=$p->loses?></td>
+		<td><?=$p->for?></td>
+		<td><?=$p->against?></td>
+		<td><?=$p->for-$p->against?></td>
+		<td><?=$p->rank?></td>
+	</tr>
 	<?endforeach;?>
-</ol>
+</table>

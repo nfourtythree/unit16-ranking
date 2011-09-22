@@ -39,6 +39,8 @@
 */
 
 $route['match'] = "ranking/match";
+$route['player'] = 'ranking/player';
+$route['player/(:any)'] = 'ranking/player_$1';
 
 $route['default_controller'] = "ranking";
 $route['404_override'] = '';

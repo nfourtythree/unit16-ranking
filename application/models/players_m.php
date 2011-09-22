@@ -6,5 +6,7 @@ class Players_m extends MY_Model {
         // Call the Model constructor
         parent::__construct();
     }
+
+	
     
 }

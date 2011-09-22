@@ -65,6 +65,55 @@ class Ranking extends CI_Controller {
 		redirect();
 	}
 	
+	public function player_add($id=false)
+	{
+		if ($_POST)
+		{
+			$this->form_validation->set_rules(array(
+				array(
+					'field'=>'name',
+					'label'=>'Name',
+					'rules'=>'required|trim'
+				),
+				array(
+					'field'=>'rank',
+					'label'=>'Rank',
+					'rules'=>'required|trim|numeric'
+				)
+			));
+			
+			if ($this->form_validation->run()):
+				$this->players_m->insert(array(
+					'name'=>$this->input->post('name'),
+					'rank'=>$this->input->post('rank')
+				));
+			
+			endif;
+		}
+		
+		$this->load->view('player/add');
+	}
+	
+	
+	public function reset()
+	{
+		$this->players_m->update_all(array('rank'=>1200, 'wins'=>0, 'draws'=>0, 'loses'=>0, 'for'=>0, 'against'=>0));
+		
+		$matches = $this->matches_m->order_by('id','ASC')->get_all();
+		
+		$this->matches_m->delete_by(array('id !='=>''));
+		
+		foreach ($matches as $match) {
+
+			$player1 = $this->players_m->get($match->player1);
+			$player2 = $this->players_m->get($match->player2);
+			$player1->score = $match->player1_score;
+			$player2->score = $match->player2_score;
+			$new_id = $this->matches_m->play_match($player1, $player2);
+			$this->matches_m->update($new_id, array('created'=>$match->created));
+		}
+		
+	}
 }
 
 /* Location: ./application/controllers/ranking.php */
